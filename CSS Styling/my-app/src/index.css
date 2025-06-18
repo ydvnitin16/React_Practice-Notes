@@ -1,0 +1,13 @@
+.button {
+  background-color: rgb(0, 255, 170);
+  color: black;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-size: larger;
+  cursor: pointer;
+  font-family: 'Franklin Gothic Medium';
+}
+
+.button:hover{
+  background-color: rgba(127, 255, 212, 0.814);
+}

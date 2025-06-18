@@ -1,0 +1,7 @@
+# React + Node Modules
+node_modules/
+build/
+.env
+.DS_Store
+.cache/
+.vscode/

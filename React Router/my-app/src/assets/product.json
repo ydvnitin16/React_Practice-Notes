@@ -1,0 +1,76 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Samsung S25",
+            "price": "₹92,999",
+            "img": "https://m.media-amazon.com/images/I/61p3FwE31-L.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Apple Pro Max",
+            "price": "₹59,900",
+            "img": "https://in.static.webuy.com/product_images/Electronics/Headphones%20-%20Apple/SHEAAAPMOEMB_l.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Macbook Pro",
+            "price": "₹1,62,990",
+            "img": "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1709828502/Croma%20Assets/Computers%20Peripherals/Laptop/Images/305387_lvycmd.png"
+        },
+        {
+            "id": 4,
+            "name": "OnePlus 12",
+            "price": "₹64,999",
+            "img": "https://oasis.opstatics.com/content/dam/oasis/page/2023/cn/12/12-black.png"
+        },
+        {
+            "id": 5,
+            "name": "Dell XPS 13",
+            "price": "₹1,20,000",
+            "img": "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9350/spi/platinum/oled/notebook-xps-13-9350-oled-silver-campaign-hero-504x350-ng.psd?fmt=jpg&wid=570&hei=400"
+        },
+        {
+            "id": 6,
+            "name": "Sony WH-1000XM5",
+            "price": "₹29,990",
+            "img": "https://www.sony.co.in/image/6145c1d32e6ac8e63a46c912dc33c5bb?fmt=pjpeg&wid=330&bgcolor=FFFFFF&bgc=FFFFFF"
+        },
+        {
+            "id": 7,
+            "name": "iPad Air 5th Gen",
+            "price": "₹54,900",
+            "img": "https://m.media-amazon.com/images/I/61XZQXFQeVL._SX679_.jpg"
+        },
+        {
+            "id": 8,
+            "name": "HP Pavilion x360",
+            "price": "₹76,999",
+            "img": "https://images-cdn.ubuy.co.in/6548a56c6b09d4007d6e591c-hp-14-fhd-pavilion-x360-laptop-intel.jpg"
+        },
+        {
+            "id": 9,
+            "name": "Boat Airdopes 441",
+            "price": "₹1,999",
+            "img": "https://m.media-amazon.com/images/I/61kWB+uzR2L._SX679_.jpg"
+        },
+        {
+            "id": 10,
+            "name": "Canon EOS 1500D DSLR",
+            "price": "₹44,999",
+            "img": "https://m.media-amazon.com/images/I/914hFeTU2-L._SX679_.jpg"
+        },
+        {
+            "id": 11,
+            "name": "JBL Flip 6 Speaker",
+            "price": "₹8,499",
+            "img": "https://www.jiomart.com/images/product/original/492796560/jbl-flip-6-by-harman-bluetooth-speaker-with-upto-12-hours-playtime-ip67-waterproof-dustproof-with-partyboost-without-mic-black-digital-o492796560-p591216812-1-202203292356.jpeg?im=Resize=(1000,1000)"
+        },
+        {
+            "id": 12,
+            "name": "Realme Smart TV 43",
+            "price": "₹29,990",
+            "img": "https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1722287113/Croma%20Assets/Entertainment/Television/Images/252954_0_twpvdd.png"
+        }
+    ]
+}

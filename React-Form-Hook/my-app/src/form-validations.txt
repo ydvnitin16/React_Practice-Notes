@@ -1,0 +1,53 @@
+// DIFFERENT FORM VALIDATIONS
+
+// 🧪 Examples of Each Validation
+
+// 1. required
+    <input {...register("name", { required: "Name is required" })} />
+
+// 2. minLength / maxLength
+   <input {...register("username", { minLength: 3, maxLength: 12 })} />
+
+// 3. min / max
+   <input type="number" {...register("age", { min: 18, max: 60 })} />
+
+// 4. pattern (email example)
+   <input
+     {...register("email", {
+       required: true,
+       pattern: {
+         value: /^\S+@\S+$/,
+         message: "Invalid email format"
+       }
+     })}
+   />
+
+
+// 5. validate (custom logic)
+   <input
+     {...register("username", {
+       validate: (value) =>
+         value !== "admin" || "You cannot use 'admin' as a username"
+     })}
+   />
+  
+// Or using multiple conditions:
+
+   validate: {
+     notAdmin: (v) => v !== "admin" || "Username cannot be 'admin'",
+     noSpaces: (v) => !v.includes(" ") || "No spaces allowed"
+   }
+
+
+// 6. valueAsNumber
+   <input
+     type="number"
+     {...register("price", { valueAsNumber: true })}
+   />
+
+// 7. setValueAs
+   <input
+     {...register("salary", {
+       setValueAs: v => parseInt(v.trim())
+     })}
+   />
