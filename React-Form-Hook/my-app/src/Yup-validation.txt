@@ -1,0 +1,147 @@
+🧠 Example: Yup with All Validations
+
+🧠 ADVANCED YUP FEATURES – COMPLETE REFERENCE
+
+📦 1. Basic Setup
+-------------------------
+import * as yup from 'yup';
+
+const schema = yup.object({
+  name: yup.string().required(),
+  age: yup.number().required().positive().integer(),
+});
+
+🛠 2. String Methods
+-------------------------
+yup.string()
+  .required('This field is required')
+  .min(3, 'Minimum 3 characters')
+  .max(20, 'Maximum 20 characters')
+  .email('Invalid email format')
+  .matches(/^[A-Za-z]+$/, 'Only alphabets allowed')
+  .trim()
+  .lowercase()
+  .uppercase()
+  .strict()  // disables coercion like converting numbers to strings
+
+📞 3. Number Methods
+-------------------------
+yup.number()
+  .required()
+  .min(18)
+  .max(99)
+  .positive()
+  .integer()
+  .typeError('Must be a number')
+
+✅ 4. Boolean
+-------------------------
+yup.boolean()
+  .oneOf([true], 'You must accept the terms')
+
+📆 5. Date
+-------------------------
+yup.date()
+  .required()
+  .min(new Date(), 'Date must be in the future')
+  .max(new Date('2025-12-31'))
+
+📋 6. OneOf & NotOneOf
+-------------------------
+yup.string()
+  .oneOf(['admin', 'user'], 'Invalid role')
+  .notOneOf(['banned'], 'This value is not allowed')
+
+🔁 7. Transform (convert input before validation)
+-------------------------
+yup.string()
+  .transform((value) => value.trim())
+  .required()
+
+📍 8. When (Conditional Logic)
+-------------------------
+const schema = yup.object({
+  isEmployed: yup.boolean(),
+  jobTitle: yup.string().when('isEmployed', {
+    is: true,
+    then: yup.string().required('Job title is required'),
+    otherwise: yup.string().notRequired(),
+  }),
+});
+
+🧩 9. Custom Validation (Test)
+-------------------------
+yup.string()
+  .test('is-even', 'Must be even length', (value) => {
+    return value && value.length % 2 === 0;
+  });
+
+🔗 10. Ref & Compare with Other Fields
+-------------------------
+const schema = yup.object({
+  password: yup.string().required().min(6),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Passwords must match'),
+});
+
+🧱 11. Nested Object
+-------------------------
+const schema = yup.object({
+  user: yup.object({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+  }),
+});
+
+📦 12. Array of Strings / Objects
+-------------------------
+// Array of strings
+yup.array().of(yup.string().required())
+
+// Array of objects
+yup.array().of(
+  yup.object({
+    name: yup.string().required(),
+    age: yup.number().required(),
+  })
+)
+
+🧠 13. Lazy Schema (dynamic schema depending on value)
+-------------------------
+const schema = yup.lazy((value) => {
+  if (typeof value === 'string') {
+    return yup.string().required();
+  }
+  return yup.number().required();
+});
+
+🧪 14. Schema Validation Outside React Hook Form
+-------------------------
+schema.validate(data)
+  .then((res) => console.log('Valid:', res))
+  .catch((err) => console.log('Error:', err.errors))
+
+schema.isValid(data).then((valid) => console.log(valid))
+
+🎯 15. Default Values with Yup
+-------------------------
+yup.string().default('N/A')
+
+📁 16. Required With Message
+-------------------------
+yup.string().required('This field is required')
+
+🎁 BONUS: Combine All in React Hook Form
+-------------------------
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const {
+  register,
+  handleSubmit,
+  formState: { errors }
+} = useForm({
+  resolver: yupResolver(schema)
+});
+
