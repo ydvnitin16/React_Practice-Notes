@@ -15,6 +15,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import AddUser from './AddUser';
+import { useEffect, useState } from 'react';
 
 function App() {
     // 🔰 FETCH DATA AND MUTATION IN AddUser.jsx
@@ -84,31 +85,56 @@ function App() {
 
     // 🔰 Dependent Queries
 
-    const { data: user, isLoading, error } = useQuery({
-        queryKey: ['users', 4],
-        queryFn: () =>
-            axios
-                .get('https://jsonplaceholder.typicode.com/users/4')
-                .then((res) => {
-                    console.log(`user fetched`);
-                    return res.data;
-                }),
-    });
-    console.log(user);
+    // const { data: user, isLoading, error } = useQuery({
+    //     queryKey: ['users', 4],
+    //     queryFn: () =>
+    //         axios
+    //             .get('https://jsonplaceholder.typicode.com/users/4')
+    //             .then((res) => {
+    //                 console.log(`user fetched`);
+    //                 return res.data;
+    //             }),
+    // });
+    // console.log(user);
 
-    const { data: posts } = useQuery({
-        // we use two 'keys so that we ca identify each user's all posts also
-        queryKey: ['posts', user?.id],
-        queryFn: () =>
-            axios
-                .get('https://jsonplaceholder.typicode.com/posts?userId=4')
-                .then((res) => {
-                    console.log(`user fetched`);
-                    return res.data;
-                }),
-                // enabled helps you to fetch when user.id is fetched
-        enabled: !!user?.id
+    // const { data: posts } = useQuery({
+    //     // we use two 'keys so that we ca identify each user's all posts also
+    //     queryKey: ['posts', user?.id],
+    //     queryFn: () =>
+    //         axios
+    //             .get('https://jsonplaceholder.typicode.com/posts?userId=4')
+    //             .then((res) => {
+    //                 console.log(`user fetched`);
+    //                 return res.data;
+    //             }),
+    //             // enabled helps you to fetch when user.id is fetched
+    //     enabled: !!user?.id
+    // });
+
+    // 🔰 Pagination
+
+    const [page, setpage] = useState(1);
+
+    async function fetchPosts({ queryKey }) {
+        const [_key, page] = queryKey;
+        const res = await axios.get(
+            'https://jsonplaceholder.typicode.com/todos',
+            { params: { _limit: 10, _page: page } }
+        );
+        // params is used to set limit and get page
+        return res.data;
+    }
+
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['todos', page],
+        queryFn: fetchPosts,
+        keepPreviousData: true,
     });
+    useEffect(() => {
+      console.log(data)
+    
+    }, [data])
+    
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -128,7 +154,9 @@ function App() {
                 <button onClick={() => refetch()}>Refetch</button>
                  <AddUser />
              */}
-            <p>
+
+            {/* Used with Dependent queries */}
+            {/* <p>
                 <strong>Name:</strong> {user.name}. <strong>Email: </strong>
                 {user.email}.
             </p>
@@ -140,7 +168,38 @@ function App() {
                         {post.title}.
                     </li>
                 ))}
-            </ul>
+            </ul> */}
+
+            {/* Used with pagination */}
+            <div>
+                <h2>Page {page}</h2>
+
+                {data?.map((todo) => (
+                    <p key={todo.id}>
+                        <strong>Title:</strong> {todo.title}-{' '}
+                        <strong>Status:</strong>{' '}
+                        {todo.completed ? 'True' : 'False'}
+                    </p>
+                ))}
+
+                <div style={{ marginTop: '20px' }}>
+                    <button
+                        onClick={() => setpage((prev) => prev - 1)}
+                        disabled={page === 1}
+                    >
+                        ⬅ Previous
+                    </button>
+                    <p>{page}</p>
+                    <button
+                        onClick={() => setpage((prev) => prev + 1)}
+                        disabled={data?.length < 10}
+                    >
+                        Next ➡
+                    </button>
+                </div>
+
+                {isLoading && <p>Loading new page...</p>}
+            </div>
         </>
     );
 }
