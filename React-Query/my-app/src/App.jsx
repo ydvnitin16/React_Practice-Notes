@@ -12,10 +12,10 @@
 
 // 🔰 FETCH DATA AND MUTATION
 
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import AddUser from './AddUser';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function App() {
     // 🔰 FETCH DATA AND MUTATION IN AddUser.jsx
@@ -113,31 +113,73 @@ function App() {
 
     // 🔰 Pagination
 
-    const [page, setpage] = useState(1);
+    // const [page, setpage] = useState(1);
 
-    async function fetchPosts({ queryKey }) {
-        const [_key, page] = queryKey;
+    // async function fetchPosts({ queryKey }) {
+    //     const [_key, page] = queryKey;
+    //     const res = await axios.get(
+    //         'https://jsonplaceholder.typicode.com/todos',
+    //         { params: { _limit: 10, _page: page } }
+    //     );
+    //     // params is used to set limit and get page
+    //     return res.data;
+    // }
+
+    // const { data, isLoading, error } = useQuery({
+    //     queryKey: ['todos', page],
+    //     queryFn: fetchPosts,
+    //     keepPreviousData: true,
+    // });
+    // useEffect(() => {
+    //   console.log(data)
+
+    // }, [data])
+
+    // if (isLoading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error.message}</p>;
+
+    // 🔰 Infinite Scrolling
+
+    const bottomRef = useRef(null);
+
+    // fetch posts
+    async function fetchPosts({ pageParam = 1 }) {
         const res = await axios.get(
-            'https://jsonplaceholder.typicode.com/todos',
-            { params: { _limit: 10, _page: page } }
+            'https://jsonplaceholder.typicode.com/posts',
+            { params: { _limit: 10, _page: pageParam } }
         );
         // params is used to set limit and get page
+        console.log(res.data);
         return res.data;
     }
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['todos', page],
-        queryFn: fetchPosts,
-        keepPreviousData: true,
-    });
-    useEffect(() => {
-      console.log(data)
-    
-    }, [data])
-    
+    const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } =
+        useInfiniteQuery({
+            queryKey: ['posts'],
+            queryFn: fetchPosts,
+            getNextPageParam: (lastPage, allPages) =>
+                lastPage.length < 10 ? undefined : allPages.length + 1,
+        });
 
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (
+                entries[0].isIntersecting &&
+                hasNextPage &&
+                !isFetchingNextPage
+            ) {
+                // this code runs when the target div will be visible.
+                fetchNextPage();
+            }
+        });
+        const target = bottomRef.current;
+        // this observer give observe property and put on the div(target), when visible it execute function in the intesection observer
+        if (target) observer.observe(target);
+
+        return () => {
+            if (target) observer.unobserve(target);
+        };
+    });
 
     return (
         <>
@@ -171,7 +213,7 @@ function App() {
             </ul> */}
 
             {/* Used with pagination */}
-            <div>
+            {/* <div>
                 <h2>Page {page}</h2>
 
                 {data?.map((todo) => (
@@ -199,6 +241,29 @@ function App() {
                 </div>
 
                 {isLoading && <p>Loading new page...</p>}
+            </div> */}
+
+            {/* Used With Infinite Scrolling */}
+            <h1>Infinte Scroll</h1>
+
+            {data?.pages.map((page, idx) => (
+                <div key={idx}>
+                    {page.map((post) => (
+                        <div key={post.id}>
+                            <strong>Title: </strong>
+                            {post.title}
+                        </div>
+                    ))}
+                </div>
+            ))}
+
+            <div ref={bottomRef} style={{ height: 50 }} />
+            <div>
+                {isFetchingNextPage
+                    ? 'Loading Posts...'
+                    : hasNextPage
+                    ? 'Scroll to load more.'
+                    : 'No more Posts'}
             </div>
         </>
     );
