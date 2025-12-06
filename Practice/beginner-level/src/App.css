@@ -1,0 +1,143 @@
+/* Root container */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Global */
+body {
+  background-image: url('https://9to5mac.com/wp-content/uploads/sites/6/2025/06/macOS_26_Dark.jpg?quality=82&strip=all');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Todo container with glass look */
+.todo-container {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(100px);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  width: 420px;
+  max-width: 90%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Input section */
+.input-section {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+#error {
+  color: #c82333;
+  font-weight: 400;
+}
+
+#todo-input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: box-shadow 0.2s;
+}
+
+#todo-input:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+#add-button {
+  padding: 12px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+#add-button:hover {
+  background-color: #0056b3;
+}
+
+#add-button:active {
+  transform: scale(0.96);
+}
+
+/* Todo list */
+#todo-list {
+  list-style: none;
+  padding: 0;
+}
+
+#todo-list li {
+  background: #ffffff;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid gray;
+  border-left: 5px #007bff solid;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Completed todo */
+#todo-list li.completed {
+  text-decoration: line-through;
+  color: #777;
+  border-left-color: #28a745;
+  background: #f0fff3;
+}
+
+/* Buttons */
+#todo-list li button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+#todo-list li button:hover {
+  background-color: #c82333;
+}
+
+#todo-list li button:active {
+  transform: scale(0.95);
+}
